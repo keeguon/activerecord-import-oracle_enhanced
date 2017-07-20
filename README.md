@@ -13,8 +13,7 @@ CREATE OR REPLACE trigger <table_name>_trg
     before insert on <table_name>
     for each row
 BEGIN
-    IF :new.id = NULL THEN
-      :new.id := <sequence_name>.nextval;
+    IF :new.id IS NULL THEN :new.id := <sequence_name>.nextval;
     END IF;
 END;
 /
