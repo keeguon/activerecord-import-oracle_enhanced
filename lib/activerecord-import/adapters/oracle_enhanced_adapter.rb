@@ -26,7 +26,7 @@ module ActiveRecord::Import::OracleEnhancedAdapter
       end
     end
 
-    [number_of_inserts, []]
+    ActiveRecord::Import::Result.new([], number_of_inserts, [], [])
   end
 
   def next_value_for_sequence(sequence_name)
