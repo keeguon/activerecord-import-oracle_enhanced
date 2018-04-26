@@ -21,28 +21,12 @@ module ActiveRecord::Import::OracleEnhancedAdapter
     transaction(requires_new: true) do
       value_sets.each do |value_set|
         number_of_inserts += 1
-        sql2insert = base_sql + value_set.map { |values| "#{into_statement} #{values}" }.join( ' ' ) + post_sql
+        sql2insert = base_sql + value_set.map { |values| "SELECT #{values} FROM DUAL" }.join( ' union all ' ) + post_sql
         insert( sql2insert, *args )
       end
     end
 
     ActiveRecord::Import::Result.new([], number_of_inserts, [], [])
-  end
-
-  def next_value_for_sequence(sequence_name)
-    %{NULL}
-  end
-
-  def pre_sql_statements(options)
-    sql = []
-    sql << "ALL"
-    sql + super
-  end
-
-  def post_sql_statements(table_name, options)
-    sql = []
-    sql << " SELECT * FROM dual";
-    sql + super(table_name, options)
   end
 
   def max_allowed_packet
