@@ -12,8 +12,7 @@ module ActiveRecord::Import::OracleEnhancedAdapter
     end
 
     # Tweak base_sql and fetch into_statement
-    into_statement = base_sql.match(/INTO .* VALUES/)[0]
-    base_sql.gsub!(/INTO .* VALUES /, '')
+    base_sql.gsub!(/VALUES /, '')
 
     value_sets = ::ActiveRecord::Import::ValueSetsRecordsParser.parse(values,
       max_records: max_allowed_packet)
